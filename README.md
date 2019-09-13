@@ -10,4 +10,5 @@ This is my [first homework assignment](https://stat545.stat.ubc.ca/evaluation/hw
 * I study wildflowers on Vancouver Island
   ![](https://blazingstargardens.com/wp-content/uploads/2017/06/DSC_1089.jpg)
 * I'm from Maui, Hawaii
-* I like cats :octocat: and making sourdough bread :bread:
+* I like cats :octocat: and making sourdough bread
+  ![](https://breadtopia.com/wp-content/uploads/2016/08/rye-loaf-e1483958824621.jpg)
