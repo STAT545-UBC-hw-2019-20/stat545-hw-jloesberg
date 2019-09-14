@@ -1,0 +1,48 @@
+---
+title: "HW1 Presentation"
+author: "Jenna Loesberg"
+date: "9/13/2019"
+output: ioslides_presentation
+---
+
+## This is part 3 of the assignment
+instructions are found [here](https://stat545.stat.ubc.ca/evaluation/hw01/hw01/)
+
+
+```{r, warning = FALSE, include = FALSE}
+library(tidyverse)
+```
+
+## __mtcars dataset__ 
+This data set contains information on car gas comsumption in 1974
+
+## Some things you could do to explore this data:
+
+#
+Summarize it:
+```{r, echo = FALSE}
+summary(mtcars)
+```
+
+# 
+Make a histogram:
+
+```{r, echo = FALSE}
+hist(mtcars$mpg)
+```
+
+
+# 
+Compare variables, for example: make a scatter plot of miles per gallon and car weight
+
+```{r, mtcars, echo=FALSE}
+ggplot(mtcars, aes(wt, mpg))  + geom_jitter()
+```
+
+# 
+Find the mean of one of the variables
+
+```{r}
+mean(mtcars$mpg)
+```
+# The End
