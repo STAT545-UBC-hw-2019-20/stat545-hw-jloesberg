@@ -99,16 +99,25 @@ Here we see the number of countries from each continent.
 ## 3.1
 A scatterplot of 2 quantitative variables:
 
-comparing population and GDP in the United States
+comparing population and GDP in China...does gdp increase as population increases? This spans from 1952 to 2007
 ```{r}
-gap4 <- gapminder %>% 
-  filter(country == "United States")
-
-
-ggplot(gap4, aes(pop, gdpPercap)+
-    geom_point()
-  
-  
+gapminder %>% 
+  filter(country == "China") %>%
+  ggplot(aes(pop, gdpPercap))+
+    geom_point()+
+    xlab("Population")+
+    ylab("GDP per capita")
 ```
 
+## 3.2
+A boxplot of life expectancy per continent in 2002:
+
+```{r}
+gapminder %>% 
+  filter(year == "2002") %>%
+  ggplot(aes(continent, lifeExp))+
+  geom_boxplot()+
+  xlab("Continent")+
+  ylab("Life expectancy (years)")
+```
 
