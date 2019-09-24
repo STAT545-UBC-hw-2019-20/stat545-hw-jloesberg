@@ -4,7 +4,7 @@ author: "Jenna Loesberg"
 date: "9/23/2019"
 output: github_document
 ---
-Instructions are provided [here](https://stat545.stat.ubc.ca/evaluation/hw02/hw02/)
+Instructions are provided [here](https://stat545.stat.ubc.ca/evaluation/hw02/hw02/) 
 
 Loading packages:
 ```{r load packages, warning = FALSE, message = FALSE}
@@ -101,12 +101,12 @@ A scatterplot of 2 quantitative variables:
 
 comparing population and GDP in the United States
 ```{r}
-gapminder %>% 
-  filter(country == "United States") %>% 
-  ggplot(aes(pop, gdpPercap)+
-    geom_point()+
-    xlab("Population")+
-    ylab("GDP per capita")
+gap4 <- gapminder %>% 
+  filter(country == "United States")
+
+
+ggplot(gap4, aes(pop, gdpPercap)+
+    geom_point()
   
   
 ```
