@@ -66,25 +66,25 @@ change in LE (I’m filtering for drops in LE, so these will be negative)
    gapminder %>% 
    arrange(year) %>% 
    group_by(country) %>% 
-   mutate(LE_change = gdpPercap - lag(gdpPercap)) %>% 
+   mutate(LE_change = lifeExp - lag(lifeExp)) %>% #another way to do this: mutate(LE_change = difference(lifeExp)) using the tsibble package)
    filter(LE_change < 0))
 ```
 
-    ## # A tibble: 332 x 7
-    ## # Groups:   country [115]
-    ##    country              continent  year lifeExp     pop gdpPercap LE_change
-    ##    <fct>                <fct>     <int>   <dbl>   <int>     <dbl>     <dbl>
-    ##  1 Bangladesh           Asia       1957    39.3  5.14e7      662.     -22.6
-    ##  2 Benin                Africa     1957    40.4  1.93e6      960.    -103. 
-    ##  3 Bolivia              Americas   1957    41.9  3.21e6     2128.    -550. 
-    ##  4 Haiti                Americas   1957    40.7  3.51e6     1727.    -113. 
-    ##  5 Malaysia             Asia       1957    52.1  7.74e6     1810.     -21.1
-    ##  6 Morocco              Africa     1957    45.4  1.14e7     1642.     -46.2
-    ##  7 Sao Tome and Princi~ Africa     1957    48.9  6.13e4      861.     -18.8
-    ##  8 Sri Lanka            Asia       1957    61.5  9.13e6     1073.     -11.0
-    ##  9 Tanzania             Africa     1957    43.0  9.45e6      699.     -18.1
-    ## 10 Tunisia              Africa     1957    47.1  3.95e6     1395.     -73.2
-    ## # ... with 322 more rows
+    ## # A tibble: 102 x 7
+    ## # Groups:   country [52]
+    ##    country         continent  year lifeExp       pop gdpPercap LE_change
+    ##    <fct>           <fct>     <int>   <dbl>     <int>     <dbl>     <dbl>
+    ##  1 China           Asia       1962    44.5 665770000      488.   -6.05  
+    ##  2 Cambodia        Asia       1972    40.3   7450606      422.   -5.10  
+    ##  3 Czech Republic  Europe     1972    70.3   9862158    13108.   -0.0900
+    ##  4 Netherlands     Europe     1972    73.8  13329874    18795.   -0.0700
+    ##  5 Slovak Republic Europe     1972    70.4   4593433     9674.   -0.63  
+    ##  6 Bulgaria        Europe     1977    70.8   8797022     7612.   -0.09  
+    ##  7 Cambodia        Asia       1977    31.2   6978607      525.   -9.10  
+    ##  8 El Salvador     Americas   1977    56.7   4282586     5139.   -1.51  
+    ##  9 Poland          Europe     1977    70.7  34621254     9508.   -0.180 
+    ## 10 Uganda          Africa     1977    50.4  11457758      844.   -0.666 
+    ## # ... with 92 more rows
 
 ## 1.4
 
