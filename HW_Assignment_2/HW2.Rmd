@@ -34,8 +34,9 @@ Filtering for drops in life expectancy (LE) and adding new variable for change i
 ```{r}
 (gapminder2 <- 
    gapminder %>% 
+   arrange(year) %>% 
    group_by(country) %>% 
-   mutate(LE_change = c(NA, diff(lifeExp))) %>% 
+   mutate(LE_change = lifeExp - lag(lifeExp)) %>% 
    filter(LE_change < 0))
 ```
 ## 1.4

@@ -64,26 +64,27 @@ change in LE (I’m filtering for drops in LE, so these will be negative)
 ``` r
 (gapminder2 <- 
    gapminder %>% 
+   arrange(year) %>% 
    group_by(country) %>% 
-   mutate(LE_change = c(NA, diff(lifeExp))) %>% 
+   mutate(LE_change = gdpPercap - lag(gdpPercap)) %>% 
    filter(LE_change < 0))
 ```
 
-    ## # A tibble: 102 x 7
-    ## # Groups:   country [52]
-    ##    country  continent  year lifeExp     pop gdpPercap LE_change
-    ##    <fct>    <fct>     <int>   <dbl>   <int>     <dbl>     <dbl>
-    ##  1 Albania  Europe     1992    71.6 3326498     2497.    -0.419
-    ##  2 Angola   Africa     1987    39.9 7874230     2430.    -0.036
-    ##  3 Benin    Africa     2002    54.4 7026113     1373.    -0.371
-    ##  4 Botswana Africa     1992    62.7 1342614     7954.    -0.877
-    ##  5 Botswana Africa     1997    52.6 1536536     8647.   -10.2  
-    ##  6 Botswana Africa     2002    46.6 1630347    11004.    -5.92 
-    ##  7 Bulgaria Europe     1977    70.8 8797022     7612.    -0.09 
-    ##  8 Bulgaria Europe     1992    71.2 8658506     6303.    -0.15 
-    ##  9 Bulgaria Europe     1997    70.3 8066057     5970.    -0.87 
-    ## 10 Burundi  Africa     1992    44.7 5809236      632.    -3.48 
-    ## # ... with 92 more rows
+    ## # A tibble: 332 x 7
+    ## # Groups:   country [115]
+    ##    country              continent  year lifeExp     pop gdpPercap LE_change
+    ##    <fct>                <fct>     <int>   <dbl>   <int>     <dbl>     <dbl>
+    ##  1 Bangladesh           Asia       1957    39.3  5.14e7      662.     -22.6
+    ##  2 Benin                Africa     1957    40.4  1.93e6      960.    -103. 
+    ##  3 Bolivia              Americas   1957    41.9  3.21e6     2128.    -550. 
+    ##  4 Haiti                Americas   1957    40.7  3.51e6     1727.    -113. 
+    ##  5 Malaysia             Asia       1957    52.1  7.74e6     1810.     -21.1
+    ##  6 Morocco              Africa     1957    45.4  1.14e7     1642.     -46.2
+    ##  7 Sao Tome and Princi~ Africa     1957    48.9  6.13e4      861.     -18.8
+    ##  8 Sri Lanka            Asia       1957    61.5  9.13e6     1073.     -11.0
+    ##  9 Tanzania             Africa     1957    43.0  9.45e6      699.     -18.1
+    ## 10 Tunisia              Africa     1957    47.1  3.95e6     1395.     -73.2
+    ## # ... with 322 more rows
 
 ## 1.4
 
@@ -231,7 +232,7 @@ Here we see the number of countries from each continent.
 
 A scatterplot of 2 quantitative variables:
 
-comparing population and GDP in China…does gdp increase as popualtion
+comparing population and GDP in China…does gdp increase as population
 increases? This spans from 1952 to 2007
 
 ``` r
