@@ -7,7 +7,7 @@ output:
 
 #### This is part 2 of the assignment, instructions are found [here](https://stat545.stat.ubc.ca/evaluation/hw01/hw01/)
 
-```{r load, warning = FALSE, include=FALSE}
+```{r load, warning = FALSE, include = FALSE}
 library(tidyverse)
 
 ```
