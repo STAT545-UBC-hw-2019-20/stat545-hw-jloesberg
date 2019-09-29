@@ -1,0 +1,69 @@
+---
+title: "HW3: Exploring Gapminder with the tidyverse...part 2"
+author: "Jenna Loesberg"
+date: "9/29/2019"
+output: html_document
+---
+[Instructions are found here](https://stat545.stat.ubc.ca/evaluation/hw03/hw03/)
+
+```{r , warning=FALSE,echo=FALSE}
+suppressPackageStartupMessages(library(tidyverse)) 
+suppressPackageStartupMessages(library(gapminder))
+```
+
+# Choosing three of the six tasks:
+Include the folowing for each:
+1. a tibble, using dplyr as your data manipulation tool;
+2. an accompanying plot of data from the tibble, using ggplot2 as your visualization tool; and
+3. some dialogue about what your tables/figures show (doesn’t have to be much).
+
+## Task Option 2:
+### Get the maximum and minimum of GDP per capita for all continents.
+
+1.1 Start by grouping by continent and using filter
+```{r}
+(gapminder2 <- 
+  gapminder %>%
+  group_by(continent) %>% 
+  filter(gdpPercap==min(gdpPercap) | gdpPercap==max(gdpPercap)))
+```
+1.2 Now, making a plot. I want to make grouped columns, how do I do this??
+
+There is definitly a better way to organize the data to be able to graph it, but this is what I figured out. I created a new column and identified the GDP as either min or max for each continent...
+
+```{r}
+gapminder2$key_gdp <- c('Min'
+                          , 'Max'
+                          , 'Min'
+                          , 'Min'
+                          , 'Min'
+                          , 'Max'
+                          , 'Max'
+                          , 'Min'
+                          , 'Max'
+                          , 'Max')
+
+gapminder2
+```
+
+And here is the grouped bar graph: 
+```{r}
+gapminder2 %>% 
+  ggplot(aes(continent, gdpPercap, group = key_gdp, fill = key_gdp)) +
+  geom_bar(stat="identity", position=position_dodge()) +
+  labs(fill = "Max or Min GDP per continent") + #changing legend name
+  ylab("GDP per capita ($)") 
+```
+
+Again, there is likely a better way to do that...
+
+1.3 But now I can compare the minimum and maximum GDP for each continent in one plot (including data from all years). For most continents, there is a drastic difference between the max and min GDP. The mins are all pretty low, and for Asia, the max is very high.
+
+
+
+
+
+
+
+
+
