@@ -20,14 +20,16 @@ Include the folowing for each:
 ## Task Option 2:
 ### Get the maximum and minimum of GDP per capita for all continents.
 
-1.1 Start by grouping by continent and using filter
+#### 1.1
+Start by grouping by continent and using filter
 ```{r}
 (gapminder2 <- 
   gapminder %>%
   group_by(continent) %>% 
   filter(gdpPercap==min(gdpPercap) | gdpPercap==max(gdpPercap)))
 ```
-1.2 Now, making a plot. I want to make grouped columns, how do I do this??
+#### 1.2 
+Now, making a plot. I want to make grouped columns, how do I do this??
 
 There is definitly a better way to organize the data to be able to graph it, but this is what I figured out. I created a new column and identified the GDP as either min or max for each continent...
 
@@ -46,6 +48,7 @@ gapminder2$key_gdp <- c('Min'
 gapminder2
 ```
 
+
 And here is the grouped bar graph: 
 ```{r}
 gapminder2 %>% 
@@ -57,8 +60,37 @@ gapminder2 %>%
 
 Again, there is likely a better way to do that...
 
-1.3 But now I can compare the minimum and maximum GDP for each continent in one plot (including data from all years). For most continents, there is a drastic difference between the max and min GDP. The mins are all pretty low, and for Asia, the max is very high.
+#### 1.3 
+But now I can compare the minimum and maximum GDP for each continent in one plot (including data from all years). For most continents, there is a drastic difference between the max and min GDP. The mins are all pretty low, and for Asia, the max is very high.
 
+## Task Option 3:
+### Look at the spread of GDP per capita within the continents
+
+#### 2.1 
+Tibble looking at spread:
+```{r}
+gapminder %>%
+  group_by(continent) %>%
+  summarize(min_GDP = min(gdpPercap), mean_GDP = mean(gdpPercap), median_GDP = median(gdpPercap), max_GDP = max(gdpPercap), sd_GDP = sd(gdpPercap))
+```
+
+But this includes all data points across many years, If I wanted to look specifically at variance across time, I could make: 
+
+#### 2.2
+Boxplots for each year's GDP across continents
+```{r}
+gapminder %>% 
+  group_by(continent) %>% 
+  ggplot(aes(year, gdpPercap, group = year)) +
+  geom_boxplot() +
+  facet_wrap(~ continent)
+```
+
+#### 2.3 
+Well, it doesn't look great. But tells an interesting story. GDP is increasing for most continents except for Africa. Lots of variance in Asia (few very large values), and very little variance in Oceania. 
+
+## Task Option 
+####
 
 
 
