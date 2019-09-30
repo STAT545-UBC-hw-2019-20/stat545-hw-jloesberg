@@ -74,10 +74,10 @@ gapminder %>%
   summarize(min_GDP = min(gdpPercap), mean_GDP = mean(gdpPercap), median_GDP = median(gdpPercap), max_GDP = max(gdpPercap), sd_GDP = sd(gdpPercap))
 ```
 
-But this includes all data points across many years, If I wanted to look specifically at variance across time, I could make: 
+But this includes all data points across many years, if I wanted to look specifically at variance across time, I could make: 
 
 #### 2.2
-Boxplots for each year's GDP across continents
+Boxplots for each year's GDP across continents!
 ```{r}
 gapminder %>% 
   group_by(continent) %>% 
@@ -89,13 +89,20 @@ gapminder %>%
 #### 2.3 
 Well, it doesn't look great. But tells an interesting story. GDP is increasing for most continents except for Africa. Lots of variance in Asia (few very large values), and very little variance in Oceania. 
 
-## Task Option 
-####
+## Task Option 5
+#### How is life expectancy changing over time on different continents?
 
+#### 3.2
 
+I'm just going to go straight into a boxplot, because a table won't be that interesting:
+```{r}
+gapminder %>% 
+  group_by(continent) %>% 
+  ggplot(aes(year, lifeExp, group = year)) +
+  geom_boxplot() +
+  facet_wrap(~ continent)+
+  ylab("Life Expectancy (in years)") 
+```
 
-
-
-
-
-
+### 3.3
+Life expectancy is increasing thorughout time. But Africa's is plateauing. Europe's variance is decreasing over time, not sure if I can say that about Asia or America (there are more outliers).
