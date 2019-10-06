@@ -86,6 +86,7 @@ gapminder3 %>%
   datatable()
 ```
 ###  Exercise 3
+
 reading in data
 ```{r, message = FALSE, warning = FALSE}
 guest <- read_csv("https://raw.githubusercontent.com/STAT545-UBC/Classroom/master/data/wedding/attend.csv")
