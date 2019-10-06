@@ -5,3 +5,84 @@ date: "10/6/2019"
 output: html_document
 ---
 
+[Instructions are found here](https://stat545.stat.ubc.ca/evaluation/hw04/hw04/)
+
+```{r , warning=FALSE,echo=FALSE}
+suppressPackageStartupMessages(library(tidyverse)) 
+suppressPackageStartupMessages(library(gapminder))
+suppressPackageStartupMessages(library(tibble))
+suppressPackageStartupMessages(library(DT))
+```
+
+### Exercise 1:
+#### Univariate Option 1:
+#### 1.1. Make a tibble with one row per year, and columns for life expectancy for two or more countries.
+
+What it looks like before:
+```{r}
+gapminder %>% 
+  datatable()
+```
+
+Using pivot_wider to get table where each year is a new entry, and include life expectancy for 2 countries:
+```{r}
+gapminder2 <- 
+  gapminder %>% 
+  filter(country == "Australia"| country ==  "Canada") %>% 
+  select(country, year, lifeExp) %>% 
+  pivot_wider(id_cols = year,
+              names_from = country,
+              values_from = lifeExp)
+
+datatable(gapminder2)
+
+```
+
+#### 1.2. Take advantage of this new data shape to scatterplot life expectancy for one country against that of another.
+
+```{r}
+gapminder2 %>% 
+  ggplot() +
+  geom_point(aes(Australia, Canada))+
+  xlab("Life Expectancy in Australia") +
+  ylab("Life Expectancy in Canada")
+```
+
+
+#### 1.3. Re-lengthen the data.
+
+```{r}
+gapminder2 %>% 
+   pivot_longer(cols = c(Australia, Canada),
+               names_to = "country",
+               values_to = "lifeExp") %>% 
+  arrange(country) %>% 
+  datatable()
+```
+
+
+### Exercise 2
+#### Multivariate Option 1
+#### 2.1. Make a tibble with one row per year, and columns for life expectancy and GDP per capita (or two other numeric variables) for two or more countries.
+
+```{r}
+gapminder3 <- 
+  gapminder %>% 
+  filter(country == "Australia"| country ==  "Canada") %>% 
+  select(country, year, lifeExp, gdpPercap) %>% 
+  pivot_wider(id_cols = year,
+              names_from = country,
+              values_from = c(lifeExp, gdpPercap))
+datatable(gapminder3)
+```
+
+#### 2.2.Re-lengthen the data.
+```{r}
+gapminder3 %>% 
+  pivot_longer(cols = -year,
+               names_to = c(".value", "country"),
+               names_sep = "_") %>% 
+  arrange(country) %>% 
+  datatable()
+```
+
