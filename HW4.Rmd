@@ -1,0 +1,7 @@
+---
+title: "HW3"
+author: "Jenna Loesberg"
+date: "10/6/2019"
+output: html_document
+---
+
