@@ -1,5 +1,5 @@
 ---
-title: "HW3"
+title: "HW3: Tidy Data"
 author: "Jenna Loesberg"
 date: "10/6/2019"
 output: html_document
@@ -76,13 +76,54 @@ gapminder3 <-
 datatable(gapminder3)
 ```
 
-#### 2.2.Re-lengthen the data.
+#### 2.2. Re-lengthen the data.
 ```{r}
 gapminder3 %>% 
   pivot_longer(cols = -year,
                names_to = c(".value", "country"),
-               names_sep = "_") %>% 
+               names_sep = "_") %>%
   arrange(country) %>% 
   datatable()
 ```
+### Exercise 3
+reading in data
+```{r, message = FALSE, warning = FALSE}
+guest <- read_csv("https://raw.githubusercontent.com/STAT545-UBC/Classroom/master/data/wedding/attend.csv")
+email <- read_csv("https://raw.githubusercontent.com/STAT545-UBC/Classroom/master/data/wedding/emails.csv")
+```
 
+#### 3.1
+For each guest in the guestlist (guest tibble), add a column for email address, which can be found in the email tibble.
+
+Need to rearrange the email file so it matches the guest file:
+```{r}
+email2 <- email %>%
+  separate_rows(guest, sep = ", ") %>%
+  rename(name = guest)
+
+guest2 <- 
+  guest %>% 
+  left_join(email2, by = "name") %>% 
+  datatable()
+guest2
+```
+Great, now each person/ group has an email and its all on one file
+#### 3.2
+Who do we have emails for, yet are not on the guestlist?
+```{r}
+
+extra <- 
+  email2 %>%
+  anti_join(guest2, by = "name")
+extra
+```
+
+#### 3.3
+Make a guestlist that includes everyone we have emails for (in addition to those on the original guestlist). (adding the three extra people to the guest list)
+```{r}
+full_list <- guest2 %>%
+  full_join(extra, by = "name") %>% 
+  datatable()
+full_list
+```
+And there they are!
