@@ -98,32 +98,36 @@ For each guest in the guestlist (guest tibble), add a column for email address, 
 
 Need to rearrange the email file so it matches the guest file:
 ```{r}
-email2 <- email %>%
+email2 <- 
+  email %>%
   separate_rows(guest, sep = ", ") %>%
   rename(name = guest)
-
-guest2 <- 
-  guest %>% 
-  left_join(email2, by = "name") %>% 
+ 
+guest %>% 
+  left_join(email2, by = c("name")) %>% 
   datatable()
-guest2
+guest
 ```
 Great, now each person/ group has an email and its all on one file
+
 #### 3.2
+
 Who do we have emails for, yet are not on the guestlist?
+
 ```{r}
 
-extra <- 
-  email2 %>%
-  anti_join(guest2, by = "name")
-extra
+email2 %>%
+  anti_join(guest, by = c("name")) %>% 
+  datatable()
+
+
 ```
 
 #### 3.3
 Make a guestlist that includes everyone we have emails for (in addition to those on the original guestlist). (adding the three extra people to the guest list)
 ```{r}
-full_list <- guest2 %>%
-  full_join(extra, by = "name") %>% 
+full_list <- guest %>%
+  full_join(email2, by = c("name")) %>% 
   datatable()
 full_list
 ```
