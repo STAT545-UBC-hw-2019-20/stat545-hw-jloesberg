@@ -106,7 +106,6 @@ email2 <-
 guest %>% 
   left_join(email2, by = c("name")) %>% 
   datatable()
-guest
 ```
 Great, now each person/ group has an email and its all on one file
 
