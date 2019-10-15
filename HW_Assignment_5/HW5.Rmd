@@ -1,0 +1,59 @@
+---
+title: "HW5"
+author: "Jenna Loesberg"
+output: html_document
+---
+[Instructions are found here](https://stat545.stat.ubc.ca/evaluation/hw05/hw05/)
+```{r}
+library(tidyverse)
+library(here)
+library(gapminder)
+```
+
+## Exercise 1: Explain the value of the here::here package
+The advantage of using the here package is that its easier to share your code with others. I've been sent code from a Mac user (I have a PC) and had to spend a lot of time figuring out why their code wouldn't run on my computer. [Malcolm Barrett](https://malco.io/2018/11/05/why-should-i-use-the-here-package-when-i-m-already-using-projects/) also points out that if you move a file, here will still be able to find it, which is a huge plus. Essentially, the here package is a much more efficient way to read in data because it works across different platforms without needing to change any code; its seperate from our file organizations (so they can be moved around without fear of affaecting pathways); and it makes it a lot easier to send code to people who work on other computers (so they don't have to change the pathway that only works on my computer).
+
+## Exercise 2: Factor management
+Task: choose a data set and a variable to explore
+
+```{r}
+is.factor(gapminder$continent) # is continent a factor? yes
+is.factor(gapminder$country) # is country a factor? yes
+nlevels(gapminder$continent) # 5 levels
+nrow(gapminder) # how many rows in original data set? 1704
+```
+
+##### Elaboration for the gapminder data set
+1. _Drop Oceania._ Filter the Gapminder data to remove observations associated with the continent of Oceania. Additionally, remove unused factor levels. Provide concrete information on the data before and after removing these rows and Oceania; address the number of rows and the levels of the affected factors.
+
+Dropping observations:
+```{r}
+gap2 <- 
+  gapminder %>% 
+  filter(continent != "Oceania")
+nrow(gap2) #now theres 1680 rows
+```
+But theres still 5 levels:
+```{r}
+levels(gap2$continent)
+```
+
+So let's remove Oceania as a factor level:
+```{r}
+gap2 <- 
+  gapminder %>% 
+  filter(continent != "Oceania") %>% 
+  droplevels() #dropping oceania as a level
+levels(gap2$continent) #now there's 4!
+```
+
+2. _Reorder the levels of country or continent._ Use the forcats package to change the order of the factor levels, based on summarized information of one of the quantitative variables. Consider experimenting with a summary statistic beyond the most basic choice of the mean/median. Use the forcats package in the tidyverse for this, rather than the baseR function as.factor.
+
+Using my gap2 dataset, I'm going to look at life expectancy per continent (except for OCeania) in 2007.
+```{r}
+gap2 %>% 
+  filter(year == "2007") %>% 
+  ggplot()+
+  geom_col(aes(continent, lifeExp))
+```
+
