@@ -4,10 +4,11 @@ author: "Jenna Loesberg"
 output: html_document
 ---
 [Instructions are found here](https://stat545.stat.ubc.ca/evaluation/hw05/hw05/)
-```{r}
-library(tidyverse)
-library(here)
-library(gapminder)
+
+```{r , warning=FALSE,echo=FALSE}
+suppressPackageStartupMessages(library(tidyverse)) 
+suppressPackageStartupMessages(library(gapminder))
+suppressPackageStartupMessages(library(here))
 ```
 
 ## Exercise 1: Explain the value of the here::here package
@@ -49,11 +50,96 @@ levels(gap2$continent) #now there's 4!
 
 2. _Reorder the levels of country or continent._ Use the forcats package to change the order of the factor levels, based on summarized information of one of the quantitative variables. Consider experimenting with a summary statistic beyond the most basic choice of the mean/median. Use the forcats package in the tidyverse for this, rather than the baseR function as.factor.
 
-Using my gap2 dataset, I'm going to look at life expectancy per continent (except for OCeania) in 2007.
+- Comparing the results of arrange on the original and re-leveled factor.
+
 ```{r}
+# order before:
+levels(gap2$continent)
+```
+
+```{r}
+# order after: 
+fct_reorder(gap2$continent, gap2$lifeExp) %>% 
+  levels() %>% head()
+```
+
+Using my gap2 dataset, I will reorder the factors based on the median life expectancy 
+
+```{r}
+# Original factor order:
 gap2 %>% 
   filter(year == "2007") %>% 
   ggplot()+
-  geom_col(aes(continent, lifeExp))
+  geom_boxplot(aes(continent, lifeExp)) + 
+  theme_bw() +
+  xlab("Continent") +
+  ylab("Life expectancy (years)") +
+  ggtitle("Life expectancy per continent in 2007, unordered")
+  
 ```
+
+```{r}
+# reordered factors based on median lifeExp :
+gap2 %>% 
+  filter(year == "2007") %>% 
+  ggplot()+
+  geom_boxplot(aes(fct_reorder(continent, lifeExp), lifeExp)) + #reordering by median lifeexp
+  theme_bw() +
+  xlab("Continent") +
+  ylab("Life expectancy (years)")+
+  ggtitle("Life expectancy per continent in 2007, ordered")
+```
+
+The graph is now ordered in order of median life expectancy (only 2 factors ended up moving)
+
+## Exercise 3:  File input/output (I/O)
+Task: Experiment with at write/read_csv() 
+
+Like we did in class, I wil make a new data table of a subset of the gapminder data:
+
+```{r}
+am_data <- 
+  gapminder %>% 
+  filter(continent == "Americas") %>% 
+  group_by(country) %>% 
+  summarize(mean(gdpPercap), mean(lifeExp))
+am_data
+```
+
+write to a file:
+```{r}
+write_csv(am_data,
+         here("am_data.csv"))
+```
+upload again:
+```{r, message = FALSE}
+am_data2 <- read_csv(here("am_data.csv"))
+am_data2
+```
+
+## Exercise 4: Visualization design
+
+This is a grpah we made in lecture 8:
+```{r}
+gapminder %>% 
+  filter(continent == "Americas") %>% 
+  ggplot(aes(country, lifeExp)) + 
+  geom_point() +
+  geom_boxplot()
+```
+
+This is how I would make it now:
+```{r}
+gapminder %>% 
+  filter(continent == "Americas") %>% 
+  ggplot(aes(fct_reorder(country, lifeExp), lifeExp)) + 
+  geom_point() +
+  geom_boxplot() +
+  ylab("Life expectancy (years)")+
+  xlab("Country")+
+  theme_bw() +
+  ggtitle("Life expectancy in the Americas: 1950-2007") +
+   coord_flip()
+```
+I ordered the boxes by median life expectancy, changed the background color, changed the axises so we can read the country names. 
 
