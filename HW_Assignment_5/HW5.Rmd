@@ -120,7 +120,7 @@ am_data2
 
 ## Exercise 4: Visualization design
 
-This is a grpah we made in lecture 8:
+This is a graph we made in lecture 8:
 ```{r}
 graph1 <- gapminder %>% 
   filter(continent == "Americas") %>% 
