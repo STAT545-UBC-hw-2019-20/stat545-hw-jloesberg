@@ -94,9 +94,9 @@ gap2 %>%
 The graph is now ordered in order of median life expectancy (only 2 factors ended up moving)
 
 ## Exercise 3:  File input/output (I/O)
-Task: Experiment with at write/read_csv() 
+Task: Experiment with write/read_csv() 
 
-Like we did in class, I wil make a new data table of a subset of the gapminder data:
+Like we did in class, I will make a new data table of a subset of the gapminder data:
 
 ```{r}
 am_data <- 
@@ -161,10 +161,11 @@ gridExtra::grid.arrange(graph1, graph2, ncol=2,
 
 I will save my corrected figure from exercise 4:
 
-```{r}
-ggsave(here("Exercise5.png"), plot = graph2)
+```{r,message = FALSE}
+ggsave("Exercise5.png", plot = graph2)
 ```
 
-Here is the ![resulting file:](/Exercise5.png)
+Uploading the file:
+![](Exercise5.png)
 
 
