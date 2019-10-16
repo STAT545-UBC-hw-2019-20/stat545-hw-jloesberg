@@ -9,10 +9,11 @@ output: html_document
 suppressPackageStartupMessages(library(tidyverse)) 
 suppressPackageStartupMessages(library(gapminder))
 suppressPackageStartupMessages(library(here))
+suppressPackageStartupMessages(library(gridExtra))
 ```
 
 ## Exercise 1: Explain the value of the here::here package
-The advantage of using the here package is that its easier to share your code with others. I've been sent code from a Mac user (I have a PC) and had to spend a lot of time figuring out why their code wouldn't run on my computer. [Malcolm Barrett](https://malco.io/2018/11/05/why-should-i-use-the-here-package-when-i-m-already-using-projects/) also points out that if you move a file, here will still be able to find it, which is a huge plus. Essentially, the here package is a much more efficient way to read in data because it works across different platforms without needing to change any code; its seperate from our file organizations (so they can be moved around without fear of affaecting pathways); and it makes it a lot easier to send code to people who work on other computers (so they don't have to change the pathway that only works on my computer).
+The advantage of using the here package is that its easier to share your code with others. I've been sent code from a Mac user (I have a PC) and had to spend a lot of time figuring out why their code wouldn't run on my computer. [Malcolm Barrett](https://malco.io/2018/11/05/why-should-i-use-the-here-package-when-i-m-already-using-projects/) also points out that if you move a file, here will still be able to find it, which is a huge plus. Essentially, the here package is a much more efficient way to read in data because it works across different platforms without needing to change any code; its seperate from our file organizations (so they can be moved around without fear of affecting pathways); and it makes it a lot easier to send code to people who work on other computers (so they don't have to change the pathway that only works on my computer).
 
 ## Exercise 2: Factor management
 Task: choose a data set and a variable to explore
@@ -121,25 +122,49 @@ am_data2
 
 This is a grpah we made in lecture 8:
 ```{r}
-gapminder %>% 
+graph1 <- gapminder %>% 
   filter(continent == "Americas") %>% 
   ggplot(aes(country, lifeExp)) + 
   geom_point() +
   geom_boxplot()
+graph1
 ```
 
 This is how I would make it now:
 ```{r}
-gapminder %>% 
+graph2 <- gapminder %>% 
   filter(continent == "Americas") %>% 
   ggplot(aes(fct_reorder(country, lifeExp), lifeExp)) + 
   geom_point() +
   geom_boxplot() +
   ylab("Life expectancy (years)")+
-  xlab("Country")+
+  xlab("")+
+  coord_flip() +
   theme_bw() +
-  ggtitle("Life expectancy in the Americas: 1950-2007") +
-   coord_flip()
+  theme(axis.line = element_line(colour = "black"),
+    panel.grid.major = element_blank(), #removing gridlines!
+    panel.grid.minor = element_blank(),
+    panel.background = element_blank()) 
+graph2
 ```
-I ordered the boxes by median life expectancy, changed the background color, changed the axises so we can read the country names. 
+
+I ordered the boxes by median life expectancy, changed the background color, changed the axises so we can read the country names.
+
+Side by side view:
+
+```{r}
+gridExtra::grid.arrange(graph1, graph2, ncol=2,
+                        widths = c(5,6))
+```
+
+## Exercise 5: Writing figures to file
+
+I will save my corrected figure from exercise 4:
+
+```{r}
+ggsave(here("Exercise5.png"), plot = graph2)
+```
+
+Here is the ![resulting file:](/Exercise5.png)
+
 
